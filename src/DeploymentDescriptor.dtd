@@ -1,0 +1,65 @@
+<!ELEMENT DeploymentDescriptor (Service)*>
+
+<!ELEMENT Service ((Description)?, Policies, (Servant | ServantManager | DefaultServant ))>
+<!ATTLIST Service id ID #REQUIRED>
+<!ATTLIST Service repositoryId CDATA #REQUIRED>
+
+<!-- Service desciption !-->
+<!ELEMENT Description (#PCDATA)>
+
+<!-- Service implementation policies !-->
+<!ELEMENT Policies (IdAssignment, 
+                    IdUniqueness,
+                    ImplicitActivation,
+                    Lifespan,
+                    RequestProcessing,
+                    ServantRetention,
+                    Thread)>
+
+<!-- Specifies the class and library wherein the service
+     Servant is defined. This element is only 
+     relevant if the following policy values are 
+     specified: RequestProcessing = USE_ACTIVE_OBJECT_MAP_ONLY
+ !-->        
+<!ELEMENT Servant EMPTY>
+<!ATTLIST Servant library CDATA #REQUIRED> 
+<!ATTLIST Servant factory CDATA #REQUIRED> 
+
+<!-- Specifies the factory and library wherein the service
+     ServantManager is defined. This element is only 
+     relevant if the following policy values are 
+     specified: RequestProcessing = USE_SERVANT_MANAGER
+ !-->        
+<!ELEMENT ServantManager EMPTY>
+<!ATTLIST ServantManager library CDATA #REQUIRED> 
+<!ATTLIST ServantManager factory CDATA #REQUIRED> 
+
+<!-- Specifies the factory and library wherein the service
+     DefaultServant is defined. This element is only 
+     relevant if the following policy values are 
+     specified: RequestProcessing = USE_DEFAULT_SERVANT                   
+!-->  
+<!ELEMENT DefaultServant EMPTY>
+<!ATTLIST DefaultServant factory CDATA #REQUIRED> 
+<!ATTLIST DefaultServant library CDATA #REQUIRED> 
+
+<!ELEMENT IdAssignment EMPTY>
+<!ATTLIST IdAssignment value (USER_ID|SYSTEM_ID) #REQUIRED>
+
+<!ELEMENT IdUniqueness EMPTY>
+<!ATTLIST IdUniqueness value (UNIQUE_ID|MULTIPLE_ID) #REQUIRED>
+
+<!ELEMENT ImplicitActivation EMPTY>
+<!ATTLIST ImplicitActivation value (IMPLICIT_ACTIVATION|NO_IMPLICIT_ACTIVATION) #REQUIRED>
+
+<!ELEMENT Lifespan EMPTY>
+<!ATTLIST Lifespan value (TRANSIENT|PERSISTENT) #REQUIRED>
+
+<!ELEMENT RequestProcessing EMPTY>
+<!ATTLIST RequestProcessing value (USE_ACTIVE_OBJECT_MAP_ONLY|USE_DEFAULT_SERVANT|USE_SERVANT_MANAGER) #REQUIRED>
+
+<!ELEMENT ServantRetention EMPTY>
+<!ATTLIST ServantRetention value (RETAIN|NON_RETAIN) #REQUIRED>
+
+<!ELEMENT Thread EMPTY>
+<!ATTLIST Thread value (ORB_CTRL_MODEL|SINGLE_THREAD_MODEL) #REQUIRED>

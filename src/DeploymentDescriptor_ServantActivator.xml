@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE DeploymentDescriptor SYSTEM "DeploymentDescriptor.dtd">
+
+<DeploymentDescriptor>
+  <Service id="time" repositoryId="IDL:Time:1.0">
+    <Description>The time service returns GMT at the time of the call</Description>
+    <Policies>
+      <IdAssignment value="USER_ID"/>
+      <IdUniqueness value="MULTIPLE_ID"/>
+      <ImplicitActivation value="NO_IMPLICIT_ACTIVATION"/>
+      <Lifespan value="PERSISTENT"/>
+      <RequestProcessing value="USE_SERVANT_MANAGER"/>
+      <ServantRetention value="RETAIN"/>
+      <Thread value="ORB_CTRL_MODEL"/>
+    </Policies>
+    <ServantManager library="libTime.so" factory="servant_activator_maker"/>
+  </Service>
+</DeploymentDescriptor>

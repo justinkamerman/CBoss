@@ -1,0 +1,62 @@
+$Id$
+
+General Implementation Notes 
+----------------------------
+
+1.Naming Service (run as root): 
+---------------- 
+command lines for starting up the NameService, server and client apps:
+
+1.1 No Multicast:
+	1.1.1) Naming Service (do this as root):
+	$TAO_ROOT/orbsvcs/Naming_Service/Naming_Service -m 0 -ORBListenEndpoints iiop://:<naming_service port>
+
+	1.1.2) Server: 
+
+        server -ORBInitRef NameService=iioploc://<naming_service host>:<naming_service_port>/NameService
+
+	1.1.3) Client: 
+
+        client -ORBInitRef NameService=iioploc://<naming_service host>:<naming_service port>/NameService
+
+1.2 Multicast (much easier, not portable):
+
+	1.2.1) Naming Service:
+
+	    $TAO_ROOT/orbsvcs/Naming_Service/Naming_Service -m 1
+
+	1.2.2) Server: 
+        
+        server
+
+	1.2.3) Client: 
+    
+        
+client 
+
+
+2. Implementation Repository
+----------------------------
+command lines for starting Implementation Repository and Activator
+
+2.1 Implementation Repository (run as root):
+
+    $TAO_ROOT/orbsvcs/ImplRepo_Service/ImplRepo_Service -m 1 -d 10 -ORBDebugLevel 10
+
+2.2 Implementation Activator (started on server host machine -- run as user which has execute
+    permission on the server)
+
+    $TAO_ROOT/orbsvcs/ImplRepo_Service/ImR_Activator -m 1 -d 10 -ORBDebugLevel 10
+
+2.3 Register service:
+
+    $TAO_ROOT/orbsvcs/ImplRepo_Service/tao_imr add <pos_name> -a NORMAL -c "DEBUG/server -ORBInitRef NameService=iioploc://localhost:9999/NameService -ORBUseIMR 1 server.tcl"
+
+2.3.1 List services:
+        $TAO_ROOT/orbsvcs/ImplRepo_Service/tao_imr list -v
+
+2.3.2 Start service:
+        $TAO_ROOT/orbsvcs/ImplRepo_Service/tao_imr shutdown <poa_name>
+
+2.3.3 Shutdown service:
+        $TAO_ROOT/orbsvcs/ImplRepo_Service/tao_imr start <poa_name>
